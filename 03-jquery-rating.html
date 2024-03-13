@@ -8,21 +8,22 @@
 
         $(".star").click( function(){
             const value = $(this).attr("data-value")
+
+            /// clear all redd stars
+            $(".star").removeClass("red")
+            /// paint red
+            $(".star").each((index, elem) => {
+                const itemValue = $(elem).attr("data-value")
+                if(itemValue <= value){
+                    $(elem).addClass("red")
+                }
+            })
+            
             $.ajax({
                 url: "https://api.dev-master.ninja/js/rating",
                 method: "POST",
                 data: { rating: value },
                 success: function(result) {
-                                                   
-                    /// clear all redd stars
-                    $(".star").removeClass("red")
-                    /// paint red
-                    $(".star").each((index, elem) => {
-                        const itemValue = $(elem).attr("data-value")
-                        if(itemValue <= value){
-                            $(elem).addClass("red")
-                        }
-                    })
                 }
             })
         })
