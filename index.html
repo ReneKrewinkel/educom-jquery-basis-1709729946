@@ -1,14 +1,44 @@
-<!DOCTYPE html>
 <html lang="en">
-  <head>   
+  <head>
+    <link rel="stylesheet" href="css/vegas-style.css"/>   
+    <link rel="stylesheet" href="vegas/vegas.css"/>       
     <script src="js/jquery.js"></script>
+    <script src="vegas/vegas.js"></script>
+    <script src="images.json"></script>
     <script>
       $(document).ready( function() {
-        $('#content').html("<h1>Jquery says hi!</h1>");
-      });    
+        let mySlides = []
+        $.getJSON("images.json", function(data) {
+          $.each(data, function(index, value) {
+            mySlides.push({
+              src: value.src,
+              title: value.title,
+              subtitle: value.subtitle
+            })
+          })
+        }).fail(function(){
+          console.log("error")
+        })
+        console.log(mySlides)
+        const slides = mySlides
+        console.log(slides)
+        $("#background-image").vegas({
+          overlay: 'vegas/overlays/02.png',
+          slides: slides,
+          walk: function (index, slideSettings) {
+            $(".text-block h1").html(slides[index].title)
+            $(".text-block h4").html(slides[index].subtitle)
+          }
+        })
+      })  
     </script>
   </head>
   <body>
-     <div id="content"></div>
+    <div id="background-image">
+        <div class="text-block">
+            <h1></h1>
+            <h4></h4>
+      </div>
+    </div>
   </body>
 </html>
