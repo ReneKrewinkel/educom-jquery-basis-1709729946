@@ -8,26 +8,27 @@
     <script>
       $(document).ready( function() {
         let mySlides = []
-        $.getJSON("images.json", function(data) {
-          $.each(data, function(index, value) {
-            mySlides.push({
-              src: value.src,
-              title: value.title,
-              subtitle: value.subtitle
+        $.ajax({
+          url: "images.json",
+          type: "GET",
+          async: false,
+          dataType: "json",
+          success: function(data){
+            $.each(data, function(index, value) {
+              mySlides.push({
+                src: value.src,
+                title: value.title,
+                subtitle: value.subtitle
+              })
             })
-          })
-        }).fail(function(){
-          console.log("error")
+          }
         })
-        console.log(mySlides)
-        const slides = mySlides
-        console.log(slides)
         $("#background-image").vegas({
           overlay: 'vegas/overlays/02.png',
-          slides: slides,
+          slides: mySlides,
           walk: function (index, slideSettings) {
-            $(".text-block h1").html(slides[index].title)
-            $(".text-block h4").html(slides[index].subtitle)
+            $(".text-block h1").html(mySlides[index].title)
+            $(".text-block h4").html(mySlides[index].subtitle)
           }
         })
       })  
